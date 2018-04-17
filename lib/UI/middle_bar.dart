@@ -13,6 +13,12 @@ class MiddleBar extends StatelessWidget{
     return new SizedBox(
       width: screenWidth,
       height: boxHeight,
+      child: new Material(
+        color: Colors.black,
+        child: new InkWell(
+          onTap: () => _onTap(),
+        ),
+      ),
     );
   }
 
