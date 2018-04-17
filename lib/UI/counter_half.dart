@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "counter_button.dart";
+import "mana_menu.dart";
 
 class CounterHalf extends StatefulWidget {
   // Initialize top or bottom
@@ -15,23 +17,24 @@ class CounterHalf extends StatefulWidget {
 }
 
 class CounterHalfState extends State<CounterHalf> {
+  // Initial States
   int _counter = 20;
-  bool _manaMenu = false;
-  bool _lights = false;
+  bool _manaMenuVisible = false;
+  bool _bonusMenuVisible = false;
+  Color _backgroundColor = Colors.blueAccent;
 
-  void _onTapMinus() {
-    this.setState(() {
-      _counter--;
-    });
-  }
+  // Button Icons
+  Icon _plusIcon = new Icon(Icons.plus_one);
+  Icon _minusIcon = new Icon(Icons.arrow_back);
 
+  // Button push methods
+  // TODO: Error handling for more than 1000...
   void _onTapPlus() {
     print("Plus tapped");
     this.setState(() {
       _counter++;
     });
   }
-
   void _onPressPlus() {
     print("Plus pressed");
     for (int i = 0; i < 1000; i++) {
@@ -40,17 +43,54 @@ class CounterHalfState extends State<CounterHalf> {
       });
     }
   }
+  void _onTapMinus() {
+    this.setState(() {
+      _counter--;
+    });
+  }
+  void _onPressMinus() {
+    print("Minus pressed");
+    for (int i = 0; i < 1000; i++) {
+      this.setState(() {
+        _counter--;
+      });
+    }
+  }
 
+  // Mana menu functionality
   void _showManaMenu() {
     print("Pressed Mana Menu");
     this.setState(() {
-      _manaMenu = true;
+      _manaMenuVisible = true;
+    });
+  }
+  void _hideManaMenu() {
+    print("Out of Mana Manu");
+    this.setState(() {
+      _manaMenuVisible = false;
     });
   }
 
-  void _tapDown(TapDownDetails details) {
-    setState(() {
-      print("Tap in progress");
+  // Bonus menu functionality
+  void _showBonusMenu() {
+    print("Bonus Menu should be showing");
+    this.setState(() {
+      _bonusMenuVisible = true;
+    });
+  }
+
+  void _hideBonusMenu() {
+    print("Bonus Menu closing");
+    this.setState(() {
+      _bonusMenuVisible = false;
+    });
+  }
+
+  // TODO: Get this function into mana_menu...
+  void _setColor(Color color) {
+    print("Setting Color");
+    this.setState(() {
+      _backgroundColor = color;
     });
   }
 
@@ -59,57 +99,51 @@ class CounterHalfState extends State<CounterHalf> {
     return new Expanded(
       child: new RotationTransition(
         turns: new AlwaysStoppedAnimation(widget.rotation / 360),
-        child: new Stack(
-          children: <Widget>[
-            new Material(
-            color: Colors.blueAccent,
-              child: new Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: new Material(
+            child: new InkWell(
+              onTap: _hideManaMenu,
+              child: new Stack(
+                fit: StackFit.expand,
                 children: <Widget>[
-                  new Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      new IconButton(
-                        icon: new Icon(Icons.menu),
-                        onPressed: _showManaMenu,
-                      ), // IconButton
-                    ], // <Widget>[]
-                  ), // Row
-                  new Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new IconButton(
-                        icon: new Icon(Icons.ac_unit),
-                        onPressed: _onTapMinus,
-                      ), //IconButton
-                      new Container(
-                        padding: new EdgeInsets.all(50.0),
-                        child: new Text(
-                          _counter.toString(),
-                          style: new TextStyle(
-                            color: _counter > 0 ? Colors.white : Colors.red,
-                            fontSize: 70.0, fontWeight: FontWeight.bold,
-                          ), // TextStyle
-                        ), // Text
-                      ), // Container
-                      new Container(
-                        child: new GestureDetector(
-                          onLongPress: _onPressPlus,
-                          child: new Container(
-                            child: new IconButton(
-                              icon: new Icon(Icons.add_circle_outline),
-                              onPressed: _onTapPlus,
-                            ), // IconButton (facade)
-                          ), // Container
-                        ), // GestureDetector
-                      ), // Container
-                    ],  // <Widget>[]
-                  ),  // Row
-                ], // <Widget> []
-              ), // Column
-            ),  // Material
-          ], // <Widget>[]
-        ), // Stack
+                  new Material(
+                    color: _backgroundColor,
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            new IconButton(
+                              icon: new Icon(Icons.menu),
+                              onPressed: _showManaMenu,
+                            ), // IconButton
+                          ], // <Widget>[]
+                        ), // Row
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new CounterButton(_onTapMinus, _onPressMinus, _minusIcon),
+                            new Container(
+                              padding: new EdgeInsets.all(30.0),
+                              child: new Text(
+                                _counter.toString(),
+                                style: new TextStyle(
+                                  color: _counter > 0 ? Colors.white : Colors.red,
+                                  fontSize: 80.0, fontWeight: FontWeight.bold,
+                                ), // TextStyle
+                              ), // Text
+                            ), // Container
+                            new CounterButton(_onTapPlus, _onPressPlus, _plusIcon),
+                          ],  // <Widget>[]
+                        ),  // Row
+                      ], // <Widget> []
+                    ), // Column
+                  ),  // Material
+                  _manaMenuVisible == true ? new ManaMenu(_backgroundColor) : new Container(),
+                ], // <Widget>[]
+              ), // Stack
+            ) // Inkwell
+        ), // Material
       ),  // RotatedTransition
     ); // Expanded
   }

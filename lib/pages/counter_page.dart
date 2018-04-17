@@ -18,7 +18,7 @@ class CounterPageState extends State<CounterPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             new CounterHalf(180), // Opponent
-            new MiddleBar(),
+            // new MiddleBar(), TODO: Figure out the inkwell hiding
             new CounterHalf(0),  // Player
           ], // <Widget>[]
         ), // Column
