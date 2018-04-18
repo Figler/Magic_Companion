@@ -139,7 +139,7 @@ class CounterHalfState extends State<CounterHalf> {
                       ], // <Widget> []
                     ), // Column
                   ),  // Material
-                  _manaMenuVisible == true ? new ManaMenu(_backgroundColor) : new Container(),
+                  _manaMenuVisible == true ? new ManaMenu(_backgroundColor, _setColor) : new Container(),
                 ], // <Widget>[]
               ), // Stack
             ) // Inkwell

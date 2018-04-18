@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+typedef void ColorCallback(Color color);
+
 class ManaMenu extends StatelessWidget {
 
   Color _backgroundColor;
-  void _setColor(Color color) {
-    // STUB: ???
-  }
-  ManaMenu(this._backgroundColor);
+  ColorCallback _setColor;
+
+  ManaMenu(this._backgroundColor, this._setColor);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class ManaMenu extends StatelessWidget {
                     icon: new Icon(Icons.wb_sunny),
                     iconSize: 50.0,
                     onPressed: () {
-                      _setColor(Colors.yellowAccent);
+                      _setColor(Colors.orangeAccent);
                     },
                   ), // IconButton - White
                   new IconButton(
