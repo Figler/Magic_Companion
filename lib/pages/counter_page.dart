@@ -9,6 +9,23 @@ class CounterPage extends StatefulWidget {
 }
 
 class CounterPageState extends State<CounterPage> {
+  // Bonus menu functionality
+  bool _bonusMenuVisible = false;
+
+  void _showBonusMenu() {
+    print("Bonus Menu should be showing");
+    this.setState(() {
+      _bonusMenuVisible = true;
+    });
+  }
+
+  void _hideBonusMenu() {
+    print("Bonus Menu closing");
+    this.setState(() {
+      _bonusMenuVisible = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Stack( // Layers children on top of each other
@@ -18,7 +35,7 @@ class CounterPageState extends State<CounterPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             new CounterHalf(180), // Opponent
-            // new MiddleBar(), TODO: Figure out the inkwell hiding
+            new MiddleBar(_hideBonusMenu, _showBonusMenu, _bonusMenuVisible),
             new CounterHalf(0),  // Player
           ], // <Widget>[]
         ), // Column

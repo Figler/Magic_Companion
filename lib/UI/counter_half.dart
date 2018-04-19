@@ -20,7 +20,7 @@ class CounterHalfState extends State<CounterHalf> {
   // Initial States
   int _counter = 20;
   bool _manaMenuVisible = false;
-  bool _bonusMenuVisible = false;
+
   Color _backgroundColor = Colors.blueAccent;
 
   // Button Icons
@@ -28,7 +28,6 @@ class CounterHalfState extends State<CounterHalf> {
   Icon _minusIcon = new Icon(Icons.arrow_back);
 
   // Button push methods
-  // TODO: Error handling for more than 1000...
   void _onTapPlus() {
     print("Plus tapped");
     this.setState(() {
@@ -37,7 +36,7 @@ class CounterHalfState extends State<CounterHalf> {
   }
   void _onPressPlus() {
     print("Plus pressed");
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 50; i++) {
       this.setState(() {
         _counter++;
       });
@@ -50,7 +49,7 @@ class CounterHalfState extends State<CounterHalf> {
   }
   void _onPressMinus() {
     print("Minus pressed");
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 50; i++) {
       this.setState(() {
         _counter--;
       });
@@ -71,20 +70,7 @@ class CounterHalfState extends State<CounterHalf> {
     });
   }
 
-  // Bonus menu functionality
-  void _showBonusMenu() {
-    print("Bonus Menu should be showing");
-    this.setState(() {
-      _bonusMenuVisible = true;
-    });
-  }
 
-  void _hideBonusMenu() {
-    print("Bonus Menu closing");
-    this.setState(() {
-      _bonusMenuVisible = false;
-    });
-  }
 
   // TODO: Get this function into mana_menu...
   void _setColor(Color color) {
